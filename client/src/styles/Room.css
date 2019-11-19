@@ -1,8 +1,10 @@
 body {
     background-image: url("/roomBackground.jpg");
-    background-position: center;
+    background-size:     contain;
+    /* background-size:     cover; */
     background-repeat: no-repeat;
-    background-size: auto;
+    background-position: center center;
+    /* background-size: auto; */
 }
 
 .video-js{
