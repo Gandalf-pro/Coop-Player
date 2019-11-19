@@ -1,0 +1,22 @@
+.UserForm{
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 25px 25px;
+}
+
+
+.inputs input {
+
+    display: block;
+    text-align: center;
+    margin: auto auto;
+
+
+}
+
+
+.inputs{
+    /* margin-left: 40%; */
+}

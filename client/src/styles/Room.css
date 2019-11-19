@@ -1,0 +1,23 @@
+body {
+    background-image: url("/roomBackground.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+.video-js{
+    margin-left: 2%;
+    display: inline;
+    float: left;
+}
+
+.main-container{
+    
+}
+
+.chat {
+    background-color: rgba(75, 75, 75, 1);
+    float: left;
+    margin: 2px;
+}
+
