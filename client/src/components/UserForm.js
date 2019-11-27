@@ -21,12 +21,16 @@ class UserForm extends Component {
     }
 
     handleChange(event) {
+        event.preventDefault();
         let target = event.target;
         let value = target.value;
         let name = target.name;
+        
         this.setState({
             [name]: value
         });
+
+        
     }
 
     async createRoom() {
@@ -107,6 +111,8 @@ class UserForm extends Component {
                 <form className="UserForm">
                     <div className="inputs">
                         <input
+                            autoComplete="off"
+                            className="inputBeat"
                             type="text"
                             name="username"
                             value={this.state.value}
@@ -114,6 +120,8 @@ class UserForm extends Component {
                             placeholder="Username"
                         />
                         <input
+                            autoComplete="off"
+                            className="inputBeat"
                             type="text"
                             name="roomName"
                             value={this.state.value}
@@ -121,6 +129,7 @@ class UserForm extends Component {
                             placeholder="Room Name"
                         />
                         <input
+                            className="inputBeat"
                             type="password"
                             name="password"
                             value={this.state.value}
@@ -129,10 +138,10 @@ class UserForm extends Component {
                         />
                     </div>
                     <div className="buttons">
-                        <button value="Create" onClick={this.changeSubmitType}>
+                        <button className="buttonBeat" value="Create" onClick={this.changeSubmitType}>
                             Create
                         </button>
-                        <button value="Join" onClick={this.changeSubmitType}>
+                        <button className="buttonBeat" value="Join" onClick={this.changeSubmitType}>
                             Join
                         </button>
                     </div>
