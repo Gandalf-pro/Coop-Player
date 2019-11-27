@@ -170,7 +170,7 @@ class Player extends Component {
     }
 
     renderMessages() {
-        console.log("rendering msgs");
+        console.log("rendering msg");
         return this.state.chat;
     }
 
