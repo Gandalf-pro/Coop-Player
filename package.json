@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "initiateAll": "",
+    "dev": "concurrently -n Server,Client -c green,cyan --kill-others \"yarn start\" \"cd client&yarn start\""
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -15,5 +17,8 @@
     "morgan": "~1.9.1",
     "socket.io": "^2.3.0",
     "uniqid": "^5.0.3"
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.0"
   }
 }

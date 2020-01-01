@@ -153,6 +153,9 @@ class Player extends Component {
     }
 
     sendMessage(event) {
+        if (event.type === 'keydown' && event.key !== 'Enter') {
+            return;
+        }
         let data = {
             user: window.sessionStorage.getItem("username"),
             message: this.state.message
@@ -193,6 +196,7 @@ class Player extends Component {
                                 placeholder="Message"
                                 value={this.state.message}
                                 onChange={this.handleChange}
+                                onKeyDown={this.sendMessage}
                             />
                             <button
                                 className="send-message"

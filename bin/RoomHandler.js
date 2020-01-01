@@ -63,7 +63,7 @@ class RoomHandler {
          * Socket connection
          */
         this.io.on("connection", socket => {
-            console.log("a user connected with id:" + socket.id);
+            console.log("A user connected with id:" + socket.id);
 
             let roomId;
             let username;
@@ -76,6 +76,10 @@ class RoomHandler {
                     username = data.username;
                     //when the room id has come insert the values
                     let room = this.rooms.get(roomId);
+                    if (!room) {
+                        socket.disconnect(true);
+                        return;
+                    }
                     //adds the socket to sockets
                     room.sockets.push(socket);
                     //adds the user to users
@@ -90,7 +94,14 @@ class RoomHandler {
 
                     room.users.set(username, user);
                     if (room.src != null) {
-                        socket.emit("sourceChange", { src: room.src });                        
+                        socket.emit("sourceChange", { src: room.src });
+                    }
+                    //send joined message
+                    for (const privateSocket of room.sockets) {
+                        privateSocket.emit("message", {
+                            user: "Server",
+                            message: `${username} Joined the server`
+                        });
                     }
                 }
             });
@@ -98,15 +109,29 @@ class RoomHandler {
             socket.on("disconnect", () => {
                 console.log("disconnected user id:" + socket.id);
                 let room = this.rooms.get(roomId);
+                if (!room) {
+                    return;
+                }
                 //remove the user from the room.users
                 room.users.delete(username);
+                
+                //remove the socket from list
+                room.sockets.splice(room.sockets.indexOf(socket), 1);
                 let userCount = room.users.size;
                 console.log("Room user count:" + userCount);
                 //if nobody is left at the room delete the room
                 if (userCount <= 0) {
                     this.rooms.delete(roomId);
+                    console.log(`Deleting the room name:${room.roomName} id:${room.roomId}`);
+                    return;
                 }
-
+                //send left message
+                for (const privateSocket of room.sockets) {
+                    privateSocket.emit("message", {
+                        user: "Server",
+                        message: `${username} Left the server`
+                    });
+                }
             });
 
             socket.on("pause", data => {
@@ -137,7 +162,9 @@ class RoomHandler {
                 for (const privateSocket of room.sockets) {
                     if (privateSocket !== socket) {
                         console.log("seeking id:" + privateSocket.id);
-                        privateSocket.emit("seek", { currentTime: data.currentTime });
+                        privateSocket.emit("seek", {
+                            currentTime: data.currentTime
+                        });
                     }
                 }
             });
@@ -155,15 +182,12 @@ class RoomHandler {
                 }
             });
 
-
             socket.on("message", data => {
                 let room = this.rooms.get(roomId);
                 for (const privateSocket of room.sockets) {
                     privateSocket.emit("message", data);
                 }
             });
-
-
         });
 
         console.log("seting routing");
